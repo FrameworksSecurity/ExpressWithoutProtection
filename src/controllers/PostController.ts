@@ -1,5 +1,6 @@
 import Post from "../models/Post";
 import Comment from "../models/Comment";
+import { sequelize} from '../db/sequelize';
 
 export default class PostController {
   public static async list(req: any, res: any) {
@@ -37,7 +38,8 @@ export default class PostController {
 
   public static async save(req: any, res: any) {
     try {
-      await Post.create({ title: req.body.title, description: req.body.description});
+      var sql = `INSERT INTO posts (title, description) VALUES ('${req.body.title}','${req.body.description}')`;
+      sequelize.query(sql);
       res.redirect('/posts');
     }
     catch (e) {
