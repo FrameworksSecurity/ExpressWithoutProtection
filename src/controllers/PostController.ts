@@ -38,7 +38,15 @@ export default class PostController {
 
   public static async save(req: any, res: any) {
     try {
-      var sql = `INSERT INTO posts (title, description) VALUES ('${req.body.title}','${req.body.description}')`;
+      var date = new Date();
+      const formatDate = (current_datetime: Date)=>{
+          let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds();
+          return formatted_date;
+      }
+      let createdAt = formatDate(date);
+      let updatedAt = createdAt;
+
+      let sql = `INSERT INTO posts (createdAt, updatedAt, title, description) VALUES ('${createdAt}','${updatedAt}','${req.body.title}','${req.body.description}')`;
       sequelize.query(sql);
       res.redirect('/posts');
     }
